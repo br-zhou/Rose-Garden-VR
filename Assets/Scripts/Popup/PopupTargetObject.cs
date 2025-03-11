@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-public class PopupchildObject : MonoBehaviour, IRayEventReceiver
+public class PopupchildObject : MonoBehaviour, IRayEventReceiver, PopupEvent
 {
     [SerializeField]
     private GameObject child;
@@ -36,12 +36,17 @@ public class PopupchildObject : MonoBehaviour, IRayEventReceiver
 
     public void OnRaycastEnter()
     {
-        Debug.Log("Popup Cast Enter");
-        targetPosition = focusPoint.transform.position;
-
+        OpenPopup();
     }
 
-    public void OnRaycastExit()
-    {
+    public void OnRaycastExit() { }
+
+    public void OpenPopup() {
+        targetPosition = focusPoint.transform.position;
+        GameManager.Instance.setCurrentPopup(GetComponent<PopupEvent>());
+    }
+
+    public void ClosePopup() {
+        targetPosition = initialPosition;
     }
 }
