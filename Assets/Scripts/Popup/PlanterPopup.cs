@@ -2,12 +2,16 @@
 using TMPro;
 using UnityEngine;
 
-public class PopupchildObject : MonoBehaviour, IRayEventReceiver, PopupEvent
+public class PlanterPopup : MonoBehaviour, IRayEventReceiver, PopupEvent
 {
     [SerializeField]
     private GameObject child;
     [SerializeField]
     private GameObject focusPoint;
+    [SerializeField]
+    private Animator flowerAnimator;
+
+    private PlanterController childController;
 
     private Vector3 initialPosition;
     private Quaternion initialRotation;
@@ -26,6 +30,7 @@ public class PopupchildObject : MonoBehaviour, IRayEventReceiver, PopupEvent
             initialScale = child.transform.localScale;
 
             targetPosition = initialPosition;
+            childController = child.GetComponent<PlanterController>();
         }
     }
 
@@ -44,9 +49,11 @@ public class PopupchildObject : MonoBehaviour, IRayEventReceiver, PopupEvent
     public void OpenPopup() {
         targetPosition = focusPoint.transform.position;
         GameManager.Instance.setCurrentPopup(GetComponent<PopupEvent>());
+        childController.setIsActive(true);
     }
 
     public void ClosePopup() {
         targetPosition = initialPosition;
+        childController.setIsActive(false);
     }
 }
