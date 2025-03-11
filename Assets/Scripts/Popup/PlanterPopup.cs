@@ -8,8 +8,6 @@ public class PlanterPopup : MonoBehaviour, IRayEventReceiver, PopupEvent
     private GameObject child;
     [SerializeField]
     private GameObject focusPoint;
-    [SerializeField]
-    private Animator flowerAnimator;
 
     private PlanterController childController;
 
@@ -49,6 +47,11 @@ public class PlanterPopup : MonoBehaviour, IRayEventReceiver, PopupEvent
     public void OpenPopup() {
         targetPosition = focusPoint.transform.position;
         GameManager.Instance.setCurrentPopup(GetComponent<PopupEvent>());
+        Invoke("ActivateChildController", 2f); // triggers function after 1 second. stops notes animation from triggering immediately.
+    }
+
+    private void ActivateChildController()
+    {
         childController.setIsActive(true);
     }
 
