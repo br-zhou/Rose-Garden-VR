@@ -1,11 +1,16 @@
 // Example implementation of IEventReceiver
 using UnityEngine;
 
-public class TargetObject : MonoBehaviour, IEventReceiver
+public class TargetObject : MonoBehaviour, IRayEventReceiver
 {
-    int count = 0;
-    public void OnRaycastHit()
+    public void OnRaycastEnter()
     {
-        Debug.Log("I was hit by a raycast! " + count++);
+        Debug.Log("Ray Cast Enter");
+
+    }
+
+    public void OnRaycastExit()
+    {
+        Debug.Log("Ray Cast Exit");
     }
 }

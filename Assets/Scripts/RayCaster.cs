@@ -3,6 +3,7 @@ using UnityEngine;
 public class RayCaster : MonoBehaviour
 {
     public float range = 5;
+    public IRayEventReceiver lastReceiver = null;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     // Update is called once per frame
@@ -20,10 +21,23 @@ public class RayCaster : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(theRay, out hit, range))
         {
-            IEventReceiver receiver = hit.collider.GetComponent<IEventReceiver>();
+            IRayEventReceiver receiver = hit.collider.GetComponent<IRayEventReceiver>();
+            if (receiver == lastReceiver) return;
+            if (lastReceiver != null)
+            {
+                lastReceiver.OnRaycastExit();
+            }
             if (receiver != null)
             {
-                receiver.OnRaycastHit();
+                receiver.OnRaycastEnter();
+            }
+            lastReceiver = receiver;
+        } else
+        {
+            if (lastReceiver != null)
+            {
+                lastReceiver.OnRaycastExit();
+                lastReceiver = null;
             }
         }
     }
