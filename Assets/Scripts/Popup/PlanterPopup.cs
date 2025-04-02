@@ -9,6 +9,7 @@ public class PlanterPopup : MonoBehaviour, IRayEventReceiver, PopupEvent
     [SerializeField]
     private GameObject focusPoint;
 
+    [SerializeField]
     private PlanterController childController;
 
     private Vector3 initialPosition;
@@ -16,7 +17,8 @@ public class PlanterPopup : MonoBehaviour, IRayEventReceiver, PopupEvent
     private Vector3 initialScale;
 
     private Vector3 targetPosition;
-
+    private Quaternion targetRotation;
+    private bool isActive = true;
     private float moveSpeed = 2.0f;
 
     void Start()
@@ -28,35 +30,63 @@ public class PlanterPopup : MonoBehaviour, IRayEventReceiver, PopupEvent
             initialScale = child.transform.localScale;
 
             targetPosition = initialPosition;
-            childController = child.GetComponent<PlanterController>();
+            targetRotation = initialRotation;
         }
     }
 
     void Update()
     {
         child.transform.position = Vector3.Lerp(child.transform.position, targetPosition, moveSpeed * Time.deltaTime);
-    }
-
-    public void OnRaycastEnter()
-    {
-        OpenPopup();
+        child.transform.rotation = Quaternion.Lerp(child.transform.rotation, targetRotation, moveSpeed * Time.deltaTime);
     }
 
     public void OnRaycastExit() { }
 
     public void OpenPopup() {
         targetPosition = focusPoint.transform.position;
-        GameManager.Instance.setCurrentPopup(GetComponent<PopupEvent>());
+        targetRotation = focusPoint.transform.rotation;
+        GameManager.Instance.setCurrentRayAction(this);
         Invoke("ActivateChildController", 2f); // triggers function after 1 second. stops notes animation from triggering immediately.
     }
 
     private void ActivateChildController()
     {
+        if (!childController) return;
         childController.setIsActive(true);
+    }
+    private void DisableChildController()
+    {
+        if (!childController) return;
+        childController.setIsActive(false);
     }
 
     public void ClosePopup() {
         targetPosition = initialPosition;
-        childController.setIsActive(false);
+        targetRotation = initialRotation;
+        //childController.setIsActive(false);
+        DisableChildController();
+    }
+
+    public void OnRaycastEnter()
+    {
+
+    }
+
+    public void Activate()
+    {
+        if (GameManager.Instance.isFocused()) return;
+        OpenPopup();
+        isActive = false;
+    }
+
+    public void DeActivate()
+    {
+        ClosePopup();
+        isActive = true;
+    }
+
+    public bool CanReceiveRays()
+    {
+        return isActive;
     }
 }

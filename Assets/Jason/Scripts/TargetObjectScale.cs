@@ -48,4 +48,19 @@ public class TargetObjectScale : MonoBehaviour, IRayEventReceiver
         transform.localScale = targetScale;
         scaleRoutine = null;
     }
+
+    public void Activate()
+    {
+
+    }
+
+    public void DeActivate()
+    {
+
+    }
+
+    public bool CanReceiveRays()
+    {
+        return true;
+    }
 }

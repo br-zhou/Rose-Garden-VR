@@ -40,4 +40,18 @@ public class SmoothMoveOnRayEvent : MonoBehaviour, IRayEventReceiver
         // Move back to the original position
         isMovingTowardsTarget = false;
     }
+
+    public void Activate()
+    {
+
+    }
+
+    public void DeActivate()
+    {
+
+    }
+    public bool CanReceiveRays()
+    {
+        return true;
+    }
 }

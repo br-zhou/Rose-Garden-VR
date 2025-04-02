@@ -5,13 +5,30 @@ public class RoseTriggerbox : MonoBehaviour, IRayEventReceiver
 {
     [SerializeField]
     private PlanterController controller;
+    public bool isActive = false;
 
     public void OnRaycastEnter()
     {
-        controller.ShowNoteFromStranger();
     }
 
     public void OnRaycastExit()
     {
+
+    }
+
+    public void Activate()
+    {
+        GameManager.Instance.setCurrentRayAction(this);
+        controller.ShowNoteFromStranger();
+    }
+
+    public void DeActivate()
+    {
+        controller.HideNoteFromStranger();
+    }
+
+    public bool CanReceiveRays()
+    {
+        return isActive;
     }
 }

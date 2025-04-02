@@ -13,4 +13,19 @@ public class TargetObject : MonoBehaviour, IRayEventReceiver
     {
         Debug.Log("Ray Cast Exit");
     }
+
+    public void Activate()
+    {
+
+    }
+
+    public void DeActivate()
+    {
+
+    }
+
+    public bool CanReceiveRays()
+    {
+        return true;
+    }
 }

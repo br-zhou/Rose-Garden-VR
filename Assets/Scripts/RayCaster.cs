@@ -10,35 +10,57 @@ public class RayCaster : MonoBehaviour
     void Update()
     {
         PerformRaycast();
+
+        GameManager.Instance.GetGuiController().SetHoverState(lastReceiver != null);
     }
 
     void PerformRaycast()
     {
         Vector3 direction = Vector3.forward;
         Ray theRay = new Ray(transform.position, transform.TransformDirection(direction * range));
-        Debug.DrawRay(transform.position, transform.TransformDirection(direction * range), Color.red);
+        //Debug.DrawRay(transform.position, transform.TransformDirection(direction * range), Color.red);
 
-        RaycastHit hit;
-        if (Physics.Raycast(theRay, out hit, range))
+        RaycastHit[] hits = Physics.RaycastAll(theRay, range);
+
+        foreach (var hit in hits)
         {
             IRayEventReceiver receiver = hit.collider.GetComponent<IRayEventReceiver>();
+            if (receiver == null) continue;
             if (receiver == lastReceiver) return;
             if (lastReceiver != null)
             {
                 lastReceiver.OnRaycastExit();
             }
-            if (receiver != null)
+            if (receiver != null && receiver.CanReceiveRays())
             {
                 receiver.OnRaycastEnter();
+                lastReceiver = receiver;
+                return;
             }
-            lastReceiver = receiver;
-        } else
+        }
+
+        // no hits
+        if (lastReceiver != null)
         {
-            if (lastReceiver != null)
-            {
-                lastReceiver.OnRaycastExit();
-                lastReceiver = null;
-            }
+            lastReceiver.OnRaycastExit();
+            lastReceiver = null;
+        }
+        
+    }
+
+    public void Activate()
+    {
+        if (lastReceiver != null)
+        {
+            lastReceiver.Activate();
+        }
+    }
+
+    public void DeActivate()
+    {
+        if (lastReceiver != null)
+        {
+            lastReceiver.DeActivate();
         }
     }
 

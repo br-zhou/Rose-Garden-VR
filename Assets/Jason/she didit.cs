@@ -47,4 +47,19 @@ public class SmoothMoveTowardsCameraRig : MonoBehaviour, IRayEventReceiver
         // Stop moving
         isMovingTowardsTarget = false;
     }
+
+    public void Activate()
+    {
+
+    }
+
+    public void DeActivate()
+    {
+
+    }
+
+    public bool CanReceiveRays()
+    {
+        return true;
+    }
 }

@@ -31,4 +31,19 @@ public class TargetObjectRotate : MonoBehaviour, IRayEventReceiver
     {
         isBeingWatched = false;
     }
+
+    public void Activate()
+    {
+
+    }
+
+    public void DeActivate()
+    {
+
+    }
+
+    public bool CanReceiveRays()
+    {
+        return true;
+    }
 }
