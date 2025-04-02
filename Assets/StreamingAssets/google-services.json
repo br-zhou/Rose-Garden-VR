@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "528704445917",
+    "firebase_url": "https://unity-test-aa7c6-default-rtdb.firebaseio.com",
+    "project_id": "unity-test-aa7c6",
+    "storage_bucket": "unity-test-aa7c6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528704445917:android:4228fc00a4149bcc8a2a34",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.FPSPoC"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2qsOU1F4DaV-iVltJrlkfZXWZlFejapE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

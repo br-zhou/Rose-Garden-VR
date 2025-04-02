@@ -73,30 +73,16 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-# Firebase SDK
-Assets/Firebase/*
-!Assets/Firebase/*.xml  # Keep XML files (optional, for settings)
-!Assets/Firebase/*.json  # Keep JSON files (like google-services.json)
-Packages/com.google.firebase.*  # Firebase UPM packages
-Assets/Editor Default Resources/Firebase/
 
-# Auto-generated files
-Assets/StreamingAssets/google-services-desktop.json
-Assets/StreamingAssets/google-services.json
-Assets/Plugins/Android/Firebase/*
-Assets/Plugins/iOS/Firebase/*
+# Ignore generated folders
+Assets/Editor Default Resources/
 Assets/GeneratedLocalRepo/
-/Assets/StreamingAssets/
+Assets/Plugins/iOS/
 
-# Misc
-.gradle/
-.idea/
-.vs/
-.vscode/
-__pycache__/
-bin/
-build/
-dist/
-node_modules/
-obj/
-target/
+# Ignore specific platform folders if they contain generated assets
+Assets/Firebase/
+Assets/MetaXR/
+Assets/Oculus/
+
+# Ignore any platform-specific plugins
+Assets/Plugins/Android/

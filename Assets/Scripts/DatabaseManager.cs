@@ -42,8 +42,6 @@ public class DatabaseManager : MonoBehaviour
                 {
                     string key = child.Key;
                     string message = child.Value?.ToString();
-                    //print(key);
-                    print(message);
                     newMessages.Add(message);
                 }
             }
@@ -52,10 +50,8 @@ public class DatabaseManager : MonoBehaviour
                 Debug.Log("No recent messages found.");
             }
 
-            if (newMessages.Count > 2)
+            if (newMessages.Count > 3)
             {
-                print("NEW MESSAGES");
-                print(newMessages);
                 messages = newMessages;
             }
 

@@ -10,24 +10,27 @@ public class ClickHandler : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !isLeftClicked)
+        if (OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.LTouch))
         {
-            HandleLeftClick();
-            isLeftClicked = true;
-        }
-
-        if (Input.GetMouseButtonDown(1) && !isRightClicked)
-        {
-            HandleRightClick();
-            isRightClicked = true;
-        }
-
-        if (Input.GetMouseButtonUp(0))
+            if (!isLeftClicked)
+            {
+                HandleLeftClick();
+                isLeftClicked = true;
+            }
+        } else
         {
             isLeftClicked = false;
         }
 
-        if (Input.GetMouseButtonUp(1))
+        if (OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch))
+        {
+            if (!isRightClicked)
+            {
+                HandleLeftClick();
+                isRightClicked = true;
+            }
+        }
+        else
         {
             isRightClicked = false;
         }
