@@ -12,7 +12,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     GuiController guiController;
-    
+
+
+    [SerializeField]
+    StartButton startScript;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -69,5 +73,10 @@ public class GameManager : MonoBehaviour
     public bool isFocused()
     {
         return popupList.Count > 0;
+    }
+    
+    public void ResetInstructions()
+    {
+        startScript.ResetIns();
     }
 }

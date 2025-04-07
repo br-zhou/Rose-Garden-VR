@@ -4,6 +4,7 @@ public class TriggerHandler : MonoBehaviour
 {
     private bool isLeftClicked = false;
     private bool isRightClicked = false;
+    private float clickTime = 0;
 
     [SerializeField]
     RayCaster raycaster;
@@ -12,6 +13,7 @@ public class TriggerHandler : MonoBehaviour
     {
         bool leftPressed = IsAnyButtonPressed(OVRInput.Controller.LTouch);
         bool rightPressed = IsAnyButtonPressed(OVRInput.Controller.RTouch);
+        
 
         if (rightPressed)
         {
@@ -19,6 +21,7 @@ public class TriggerHandler : MonoBehaviour
             {
                 HandleRightClick();
                 isRightClicked = true;
+                clickTime = Time.time;
             }
         }
         else
@@ -32,11 +35,18 @@ public class TriggerHandler : MonoBehaviour
             {
                 HandleLeftClick();
                 isLeftClicked = true;
+                clickTime = Time.time;
             }
         }
         else
         {
             isLeftClicked = false;
+        }
+
+
+        if (leftPressed && rightPressed && (isRightClicked && isLeftClicked) && Time.time - clickTime > 1f)
+        {
+            GameManager.Instance.ResetInstructions();
         }
     }
 

@@ -52,6 +52,13 @@ public class StartButton : MonoBehaviour, IRayEventReceiver
         return GameManager.Instance.isInstructionActive;
     }
 
+    public void ResetIns()
+    {
+        SetAlpha(1);
+        instructionImage.gameObject.SetActive(true);
+        GameManager.Instance.isInstructionActive = true;
+    }
+
     public void OnRaycastEnter() {}
 
     public void OnRaycastExit() {}
