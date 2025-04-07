@@ -19,24 +19,22 @@ public class EnvelopeController : MonoBehaviour
         envelope.SetActive(false);
     }
 
+    public bool canOpen() {
+        return !letterScirpt.isOut;
+    }
+
+    public bool canClose() {
+        return envelopScript.isOpen;
+    }
+
     public void toggleEnvelope(bool val)
     {
-        //if (!isVisible && !envelopScript.isOpen && val)
-        //{
-        //    smokeEffect.Play();
-        //    StartCoroutine(OpenSequence());
-        //}
-        //else if (isVisible && letterScirpt.isOut)
-        //{
-        //    //envelope.SetActive(false);
-        //    StartCoroutine(CloseSequence());
-        //}
         if (val)
         {
             smokeEffect.Play();
             StartCoroutine(OpenSequence());
         }
-        else
+        else if (!val)
         {
             //envelope.SetActive(false);
             StartCoroutine(CloseSequence());

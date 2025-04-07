@@ -11,7 +11,6 @@ public class RayCaster : MonoBehaviour
     {
         PerformRaycast();
 
-        print("HI");
         GameManager.Instance.GetGuiController().SetHoverState(lastReceiver != null);
     }
 
@@ -27,7 +26,8 @@ public class RayCaster : MonoBehaviour
         {
             IRayEventReceiver receiver = hit.collider.GetComponent<IRayEventReceiver>();
             if (receiver == null) continue;
-            if (receiver == lastReceiver && receiver.CanReceiveRays()) return;
+            if (receiver == lastReceiver) return;
+            if (GameManager.Instance.isInstructionActive && receiver.GetType() != typeof(StartButton)) return;
             if (lastReceiver != null)
             {
                 lastReceiver.OnRaycastExit();
@@ -46,7 +46,7 @@ public class RayCaster : MonoBehaviour
             lastReceiver.OnRaycastExit();
             lastReceiver = null;
         }
-
+        
     }
 
     public void Activate()

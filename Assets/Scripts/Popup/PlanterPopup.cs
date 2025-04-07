@@ -1,6 +1,7 @@
 // Example implementation of IEventReceiver
 using TMPro;
 using UnityEngine;
+using System.Collections;
 
 public class PlanterPopup : MonoBehaviour, IRayEventReceiver, PopupEvent
 {
@@ -18,8 +19,8 @@ public class PlanterPopup : MonoBehaviour, IRayEventReceiver, PopupEvent
 
     private Vector3 targetPosition;
     private Quaternion targetRotation;
-    private bool isActive = true;
-    private float moveSpeed = 2.0f;
+    private bool isActive = false;
+    private float moveSpeed = 1.5f;
 
     void Start()
     {
@@ -36,21 +37,46 @@ public class PlanterPopup : MonoBehaviour, IRayEventReceiver, PopupEvent
 
     void Update()
     {
-        child.transform.position = Vector3.Lerp(child.transform.position, targetPosition, moveSpeed * Time.deltaTime);
-        child.transform.rotation = Quaternion.Lerp(child.transform.rotation, targetRotation, moveSpeed * Time.deltaTime);
+        float t = moveSpeed * Time.deltaTime;
+        child.transform.position = Vector3.Lerp(child.transform.position, targetPosition, t);
+        child.transform.rotation = Quaternion.Lerp(child.transform.rotation, targetRotation, t);
     }
 
-    public void OnRaycastExit() { }
+    public void Activate()
+    {
+        if (isActive) return;
+        OpenPopup();
+        isActive = true;
+    }
+
+    public void DeActivate()
+    {
+        ClosePopup();
+        isActive = false;
+    }
 
     public void OpenPopup() {
         targetPosition = focusPoint.transform.position;
         targetRotation = focusPoint.transform.rotation;
         GameManager.Instance.setCurrentRayAction(this);
-        Invoke("ActivateChildController", 2f); // triggers function after 1 second. stops notes animation from triggering immediately.
+        Invoke("ActivateChildController", 1.5f); // triggers function after 1 second. stops notes animation from triggering immediately.
+    }
+
+    public void ClosePopup() {
+        DisableChildController();
+        StartCoroutine(ClosePopupCoroutine());
+    }
+
+    IEnumerator ClosePopupCoroutine()
+    {
+        yield return new WaitForSeconds(1f);
+        targetPosition = initialPosition;
+        targetRotation = initialRotation;
     }
 
     private void ActivateChildController()
     {
+        if (!isActive) return;
         if (!childController) return;
         childController.setIsActive(true);
     }
@@ -60,33 +86,12 @@ public class PlanterPopup : MonoBehaviour, IRayEventReceiver, PopupEvent
         childController.setIsActive(false);
     }
 
-    public void ClosePopup() {
-        targetPosition = initialPosition;
-        targetRotation = initialRotation;
-        //childController.setIsActive(false);
-        DisableChildController();
-    }
-
-    public void OnRaycastEnter()
-    {
-
-    }
-
-    public void Activate()
-    {
-        if (GameManager.Instance.isFocused()) return;
-        OpenPopup();
-        isActive = false;
-    }
-
-    public void DeActivate()
-    {
-        ClosePopup();
-        isActive = true;
-    }
-
     public bool CanReceiveRays()
     {
-        return isActive;
+        return !GameManager.Instance.isFocused() && !isActive;
     }
+
+    public void OnRaycastEnter() {}
+
+    public void OnRaycastExit() {}
 }

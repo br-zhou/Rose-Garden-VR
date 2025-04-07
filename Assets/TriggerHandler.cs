@@ -10,16 +10,10 @@ public class TriggerHandler : MonoBehaviour
 
     void Update()
     {
-        float rightTrigger = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch);
-        float leftTrigger = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch);
+        bool leftPressed = IsAnyButtonPressed(OVRInput.Controller.LTouch);
+        bool rightPressed = IsAnyButtonPressed(OVRInput.Controller.RTouch);
 
-        float rightGrip = OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.RTouch);
-
-
-        Debug.Log($"Right Trigger: {rightTrigger}, Left Trigger: {leftTrigger}");
-
-        // Handle right trigger input
-        if (rightTrigger > 0)
+        if (rightPressed)
         {
             if (!isRightClicked)
             {
@@ -32,8 +26,7 @@ public class TriggerHandler : MonoBehaviour
             isRightClicked = false;
         }
 
-        // Handle left trigger input
-        if (rightGrip > 0)
+        if (leftPressed)
         {
             if (!isLeftClicked)
             {
@@ -45,20 +38,31 @@ public class TriggerHandler : MonoBehaviour
         {
             isLeftClicked = false;
         }
+    }
 
+    bool IsAnyButtonPressed(OVRInput.Controller controller)
+    {
+        return
+            OVRInput.Get(OVRInput.Button.One, controller) ||
+            OVRInput.Get(OVRInput.Button.Two, controller) ||
+            OVRInput.Get(OVRInput.Button.Three, controller) ||
+            OVRInput.Get(OVRInput.Button.Four, controller) ||
+            OVRInput.Get(OVRInput.Button.PrimaryThumbstick, controller) ||
+            OVRInput.Get(OVRInput.Button.PrimaryThumbstickUp, controller) ||
+            OVRInput.Get(OVRInput.Button.PrimaryThumbstickDown, controller) ||
+            OVRInput.Get(OVRInput.Button.PrimaryThumbstickLeft, controller) ||
+            OVRInput.Get(OVRInput.Button.PrimaryThumbstickRight, controller) ||
+            OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, controller) ||
+            OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger, controller);
     }
 
     void HandleLeftClick()
     {
-        //raycaster.Activate();
         GameManager.Instance.GoBack();
-
     }
 
     void HandleRightClick()
     {
-        //raycaster.DeActivate();
         raycaster.Activate();
-        //GameManager.Instance.GoBack();
     }
 }

@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     private List<IRayEventReceiver> popupList;
     private DatabaseManager dbm;
 
+    public bool isInstructionActive = true;
+
     [SerializeField]
     GuiController guiController;
     
@@ -25,9 +27,16 @@ public class GameManager : MonoBehaviour
         popupList = new List<IRayEventReceiver>();
     }
 
-    public void setCurrentRayAction(IRayEventReceiver e)
+    // true -> success, false -> failed
+    public bool setCurrentRayAction(IRayEventReceiver e)
     {
+        if (popupList.Count > 0 && popupList[popupList.Count - 1] == e) return false;
+        if (popupList.Count > 1) {
+            closeCurrentRayAction();
+        }
         popupList.Add(e);
+        Debug.Log($"Added {e} to popupList");
+        return true;
     }
 
     public GuiController GetGuiController()
@@ -46,7 +55,10 @@ public class GameManager : MonoBehaviour
 
     public void GoBack()
     {
-        closeCurrentRayAction();
+        while (popupList.Count > 0)
+        {
+            closeCurrentRayAction();
+        }
     }
 
     public string GetRandomMessage()

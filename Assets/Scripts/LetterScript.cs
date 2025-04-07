@@ -14,8 +14,22 @@ public class LetterScript : MonoBehaviour
 
     void OnEnable()
     {
+        StartCoroutine(InitializeLetterAfterGameManager());
+    }
+
+    private IEnumerator InitializeLetterAfterGameManager()
+    {
+        while (GameManager.Instance == null)
+        {
+            yield return null;
+        }
+
+        string message = GameManager.Instance.GetRandomMessage();
+        setMessage(message);
+
         originalPosition = transform.position;
         Renderer renderer = GetComponent<Renderer>();
+        
         if (renderer != null)
         {
             float height = renderer.bounds.size.y;
@@ -26,7 +40,6 @@ public class LetterScript : MonoBehaviour
             Debug.LogWarning("Renderer not found! Using default slide value.");
             slideAmount = 0.03f; // Fallback value
         }
-        setMessage(GameManager.Instance.GetRandomMessage());
     }
 
     internal void SlideLetterOut()
@@ -49,8 +62,10 @@ public class LetterScript : MonoBehaviour
     }
     private void setMessage(string msg)
     {
+        Debug.Log("Setting message: " + msg);
         if (textComponent != null)
         {
+            Debug.Log("Text component is not null");
             textComponent.text = msg;
         }
     }

@@ -1,47 +1,45 @@
-// Example implementation of IEventReceiver
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections;
 
 public class PlanterController : MonoBehaviour
 {
-    private bool isActive = false;
+    public GameObject descriptionPanel;
+    public EnvelopeControllerScript envelopeController;
+    public DescriptionPanelController descriptionPanelController;
+    public RoseController roseController;
 
-    [SerializeField]
-    EnvelopeController envelopeController;
-    [SerializeField]
-    GameObject noteObj;
-    [SerializeField]
-    private FlowerAnimationController flowerAnimator;
-    [SerializeField]
-    RoseTriggerbox rtb;
-
-    private bool showingNote = false;
-    public void ShowNoteFromStranger()
+    void Start()
     {
-        //if (!isActive) return;
-
-        //noteObj.SetActive(true);
-        //flowerAnimator.playBloom();
-        showingNote = true;
-        envelopeController.toggleEnvelope(true);
+        
     }
 
-    public void HideNoteFromStranger()
+    public virtual void setIsActive(bool value)
     {
-        //flowerAnimator.playUnbloom();
-        //noteObj.SetActive(false);
-        showingNote = false;
-        envelopeController.toggleEnvelope(false);
+        Debug.Log("called setIsActive (base)");
+        if (value) {
+            ActivatePlanter();
+        } else {
+            DeactivatePlanter();
+        }
     }
 
-    public void setIsActive(bool value)
+    internal void ActivatePlanter(string planterType = "side")
     {
-        isActive = value;
-        rtb.isActive = value;
+        roseController.SetIsActiveRoses(true);
+        envelopeController.ActivatePlanter(this, planterType);
+        descriptionPanelController.ActivatePanel(descriptionPanel, planterType);
+    }
 
-        //if (value == false && showingNote)
-        //{
-        //    HideNoteFromStranger();
-        //}
+    internal void DeactivatePlanter()
+    {
+        roseController.SetIsActiveRoses(false);
+        envelopeController.DeactivatePlanter();
+        descriptionPanelController.DeactivatePanel();
+    }
+
+    public void DeactivateDescriptionPanel()
+    {
+        descriptionPanelController.DeactivatePanel();
     }
 }

@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class RoseTriggerbox : MonoBehaviour, IRayEventReceiver
 {
-    [SerializeField]
-    private PlanterController controller;
+    // [SerializeField]
+    // private PlanterController controller;
     public bool isActive = false;
 
     public void OnRaycastEnter()
@@ -19,12 +19,12 @@ public class RoseTriggerbox : MonoBehaviour, IRayEventReceiver
     public void Activate()
     {
         GameManager.Instance.setCurrentRayAction(this);
-        controller.ShowNoteFromStranger();
+        // controller.ShowNoteFromStranger();
     }
 
     public void DeActivate()
     {
-        controller.HideNoteFromStranger();
+        // controller.HideNoteFromStranger();
     }
 
     public bool CanReceiveRays()
