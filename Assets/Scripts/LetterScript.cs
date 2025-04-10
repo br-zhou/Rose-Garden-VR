@@ -47,6 +47,7 @@ public class LetterScript : MonoBehaviour
         if (!isOut && !isSliding)
         {
             isSliding = true;
+            originalPosition = transform.position;
             transform.position = originalPosition;
             StartCoroutine(SlideLetter(transform.position, originalPosition + transform.up * slideAmount));
         }
