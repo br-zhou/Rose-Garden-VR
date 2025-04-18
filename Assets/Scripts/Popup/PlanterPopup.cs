@@ -59,6 +59,7 @@ public class PlanterPopup : MonoBehaviour, IRayEventReceiver, PopupEvent
         targetPosition = focusPoint.transform.position;
         targetRotation = focusPoint.transform.rotation;
         GameManager.Instance.setCurrentRayAction(this);
+        AudioManager.Instance.Play("planter");
         Invoke("ActivateChildController", 1.5f); // triggers function after 1 second. stops notes animation from triggering immediately.
     }
 

@@ -19,6 +19,7 @@ public class StartButton : MonoBehaviour, IRayEventReceiver
 
     IEnumerator FadeInInstructionImage()
     {
+        GameManager.Instance.isInstructionActive = false;
         float elapsedTime = 0f;
         while (elapsedTime < fadeDuration)
         {
@@ -31,7 +32,6 @@ public class StartButton : MonoBehaviour, IRayEventReceiver
 
         SetAlpha(0f);
         instructionImage.gameObject.SetActive(false);
-        GameManager.Instance.isInstructionActive = false;
     }
 
     private void SetAlpha(float alpha)

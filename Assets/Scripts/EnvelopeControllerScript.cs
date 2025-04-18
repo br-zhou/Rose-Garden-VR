@@ -155,6 +155,7 @@ public class EnvelopeControllerScript : MonoBehaviour
         frontLetter.SetActive(true);
 
         envelopScript.OpenEnvelope();
+        AudioManager.Instance.Play("magic");
         yield return new WaitForSeconds(1.5f);
 
         letterScirpt.SlideLetterOut();

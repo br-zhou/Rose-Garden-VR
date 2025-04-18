@@ -62,7 +62,7 @@ public class DatabaseManager : MonoBehaviour
     public string GetRandomMessage()
     {
         System.Random random = new System.Random();
-
+        print(messages);
         int index = random.Next(messages.Count);
         return messages[index];
     }

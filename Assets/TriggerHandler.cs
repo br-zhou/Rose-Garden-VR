@@ -68,11 +68,13 @@ public class TriggerHandler : MonoBehaviour
 
     void HandleLeftClick()
     {
+        AudioManager.Instance.Play("unclick");
         GameManager.Instance.GoBack();
     }
 
     void HandleRightClick()
     {
+        AudioManager.Instance.Play("click");
         raycaster.Activate();
     }
 }
