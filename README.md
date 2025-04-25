@@ -1,5 +1,5 @@
 
-# UBC Rose Garden XR Viewfinder Project (FPS Version)
+# UBC Rose Garden XR Viewfinder Project (XR Version)
 
 ## Project Overview
 This is the XR version of the UBC Rose Garden XR ViewFinder Project. The FPS version can be found [here](https://github.com/Amon3141/rose-garden-viewfinder-fps/tree/main).
