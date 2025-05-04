@@ -9,8 +9,24 @@ public class TriggerHandler : MonoBehaviour
     [SerializeField]
     RayCaster raycaster;
 
+    [SerializeField]
+    OVRControllerMovement movementEdit;
+
+    bool isEnabled = true;
+
     void Update()
     {
+        if (!isEnabled)
+        {
+            if (OVRInput.GetDown(OVRInput.Button.Two) || OVRInput.GetDown(OVRInput.Button.Four))
+            {
+                print("PLAY MODE");
+                isEnabled = true;
+                movementEdit.isEnabled = false;
+            }
+            return;
+        }
+
         bool leftPressed = IsAnyButtonPressed(OVRInput.Controller.LTouch);
         bool rightPressed = IsAnyButtonPressed(OVRInput.Controller.RTouch);
         
@@ -44,7 +60,14 @@ public class TriggerHandler : MonoBehaviour
         }
 
 
-        if (leftPressed && rightPressed && (isRightClicked && isLeftClicked) && Time.time - clickTime > 1f)
+        if (leftPressed && rightPressed && (isRightClicked && isLeftClicked) && Time.time - clickTime > 1f && OVRInput.Get(OVRInput.Button.PrimaryThumbstick) && OVRInput.Get(OVRInput.Button.Two))
+        {
+            print("EDIT MODE");
+            isEnabled = false;
+            movementEdit.isEnabled = true;
+        }
+
+        if (leftPressed && rightPressed && (isRightClicked && isLeftClicked) && Time.time - clickTime > 2f)
         {
             GameManager.Instance.ResetInstructions();
         }
